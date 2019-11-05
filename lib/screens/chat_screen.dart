@@ -128,7 +128,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
             widget.user.name,
@@ -151,27 +151,34 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Column(
             children: <Widget>[
               Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0))),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30.0),
-                        topRight: Radius.circular(30.0)),
-                    child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        reverse: true,
-                        padding: EdgeInsets.only(top: 15.0),
-                        itemCount: messages.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final message = messages[index];
-                          final isMe = message.sender.id == currentUser.id;
-                          return _buildMessage(message, isMe);
-                        }),
-                  ),
+                child: Stack(
+                  children: <Widget>[
+                    Container(color: Theme.of(context).primaryColor),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30.0),
+                              topRight: Radius.circular(30.0))),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30.0),
+                            topRight: Radius.circular(30.0)),
+                        child: ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            reverse: true,
+                            padding: EdgeInsets.only(top: 15.0),
+                            itemCount: messages.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final message = messages[index];
+
+                              final isMe = message.sender.id == currentUser.id;
+
+                              return _buildMessage(message, isMe);
+                            }),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               _buildMessageComposer(),
